@@ -9,10 +9,10 @@ class Menu extends Phaser.Scene {
 
     create(){
         let menuConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Roboto',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            backgroundColor: '#189AB4',
+            color: '#05445E',
             align: 'right',
             padding:{
                 top: 5,
@@ -20,7 +20,7 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
-        this.add.text(500, 500, 'SEA TOWER', menuConfig).setOrigin(0.5);
+        this.add.text(300, 500, 'SEA TOWER', menuConfig).setOrigin(0.5);
         console.log("In Menu Scene");
     }
 
