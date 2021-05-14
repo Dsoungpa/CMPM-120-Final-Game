@@ -33,6 +33,7 @@ class Menu extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(right)){
             //this.p2.x +=50;
             this.p2.applyForce(50);
+            //blah
         }
     }
 }
