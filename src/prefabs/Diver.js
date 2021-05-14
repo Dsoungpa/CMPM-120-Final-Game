@@ -3,16 +3,4 @@ class Diver extends Phaser.Scene {
         super(scene, x, y, texture, frame);
 
     }
-
-    preload(){
-
-    }
-
-    create(){
-        console.log("In Diver Class");
-    }
-
-    update(){
-
-    }
 }
