@@ -1,7 +1,7 @@
 let config = {
     type: Phaser.CANVAS,
-    width: 640,
-    height: 960,
+    width: 384,
+    height: 500,
     
     physics: {
         default: 'arcade',
@@ -10,6 +10,7 @@ let config = {
             gravity: {y: -100}
         }
     },
+    zoom: 1,
     scene: [Tutorial, Menu, Level1, Level2]
 }
 
