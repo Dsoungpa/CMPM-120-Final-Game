@@ -9,9 +9,12 @@ class Tutorial extends Phaser.Scene {
         this.load.image('tileset', './assets/img/underwatertm.png');
         this.load.tilemapTiledJSON('tilemap', './assets/img/tutorialmap.json');
         this.load.atlas('player', './assets/img/DiverSprite.png', './assets/img/DiverSprite.json');
+        this.load.image('restart', './assets/img/RestartText.png');
+        this.load.audio('bubbles', './assets/audio/bubbles.mp3');
     }
 
     create(){
+
         //map render
         const map = this.add.tilemap('tilemap');
         const tileset = map.addTilesetImage('underwater', 'tileset');
@@ -33,7 +36,7 @@ class Tutorial extends Phaser.Scene {
         right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         //this.p2 = this.physics.add.sprite(100, 300, 'dart', 0); 
-        this.p2 = this.physics.add.sprite(100, 300, 'player', 0);
+        this.p2 = this.physics.add.sprite(100, 250, 'player', 0);
         this.p2.body.collideWorldBounds = true;  
 
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -109,6 +112,11 @@ class Tutorial extends Phaser.Scene {
         });
 
         this.p2.play("swimLeft");
+
+        R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+
+        this.restartText = this.add.tileSprite(0, 0, 384, 500, 'restart').setOrigin(0, 0);
+        this.sound.play('bubbles');
     }
     
     update(){
@@ -136,6 +144,9 @@ class Tutorial extends Phaser.Scene {
         }
 
 
-
+        if (Phaser.Input.Keyboard.JustDown(R)) {
+            this.sound.play('sfx_select');
+            this.scene.start('titleScene'); 
+        }
     }
 }

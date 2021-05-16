@@ -6,13 +6,14 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
             gravity: {y: -100}
         }
     },
     zoom: 1,
-    scene: [Tutorial, Menu, Level1, Level2]
+    scene: [Title, Tutorial, Level1, Level2]
 }
 
 let game = new Phaser.Game(config);
 let up, down, left, right, pressed;
+let keyRIGHT, R;
