@@ -116,7 +116,8 @@ class Tutorial extends Phaser.Scene {
         R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         this.restartText = this.add.tileSprite(0, 0, 384, 500, 'restart').setOrigin(0, 0);
-        this.sound.play('bubbles');
+        bubbles = this.sound.add('bubbles', {volume: 0.04});
+        bubbles.play();
     }
     
     update(){
@@ -145,6 +146,8 @@ class Tutorial extends Phaser.Scene {
 
 
         if (Phaser.Input.Keyboard.JustDown(R)) {
+            backgroundMusic.stop();
+            bubbles.stop();
             this.sound.play('sfx_select');
             this.scene.start('titleScene'); 
         }

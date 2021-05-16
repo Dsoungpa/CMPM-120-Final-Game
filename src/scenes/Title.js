@@ -7,7 +7,7 @@ class Title extends Phaser.Scene {
         // load audio
         this.load.audio('sfx_select', './assets/audio/KeyboardAudio.wav');
         this.load.image('menuArt', './assets/img/MenuArt.png');
-     
+        this.load.audio('bkmusic', './assets/audio/Dylan_Water.mp3');
     }
 
     create() {
@@ -32,6 +32,10 @@ class Title extends Phaser.Scene {
 
         //keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
+        backgroundMusic = this.sound.add('bkmusic', {volume: 0.3});
+        backgroundMusic.loop = true;
+        backgroundMusic.play();
     }
 
     update() {
@@ -40,8 +44,9 @@ class Title extends Phaser.Scene {
         //   this.scene.start('playScene');    
         // }
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-          this.sound.play('sfx_select');
-          this.scene.start('tutorialScene'); 
+            backgroundMusic.volume = 0.08
+            this.sound.play('sfx_select');
+            this.scene.start('tutorialScene'); 
         }
 
       }
