@@ -50,8 +50,11 @@ class Tutorial extends Phaser.Scene {
         //physics
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
         this.physics.add.collider(this.p2, terrainLayer);
+
+
         this.physics.add.collider(this.p2, chest, function(p2, chest){
             console.log("Got to Chest!");
+            col = true;
         });  
 
         //animation
@@ -129,6 +132,12 @@ class Tutorial extends Phaser.Scene {
     }
     
     update(){
+
+
+        if (col){
+            col = false;
+            this.scene.start('level1Scene');
+        }
 
 
         // movement from https://www.html5gamedevs.com/topic/7774-apply-force-to-sprite/

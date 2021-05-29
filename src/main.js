@@ -19,3 +19,4 @@ let up, down, left, right, pressed;
 let keyRIGHT, R;
 let backgroundMusic;
 let bubbles;
+let col = false;
