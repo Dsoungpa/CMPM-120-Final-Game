@@ -33,7 +33,7 @@ class Title extends Phaser.Scene {
         //keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-        backgroundMusic = this.sound.add('bkmusic', {volume: 0.3});
+        backgroundMusic = this.sound.add('bkmusic', {volume: 0.0});
         backgroundMusic.loop = true;
         backgroundMusic.play();
     }

@@ -21,9 +21,14 @@ class Tutorial extends Phaser.Scene {
 
         const bgLayer = map.createLayer('Background', tileset, 0, 0);
         const terrainLayer = map.createLayer('Collidable', tileset, 0, 0);
+        const chest = map.createLayer('Chest', tileset, 0, 0);
         const extras = map.createLayer('Extra', tileset, 0, 0);
 
         terrainLayer.setCollisionByProperty({
+            Collision: true
+        });
+
+        chest.setCollisionByProperty({
             Collision: true
         });
 
@@ -45,6 +50,9 @@ class Tutorial extends Phaser.Scene {
         //physics
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
         this.physics.add.collider(this.p2, terrainLayer);
+        this.physics.add.collider(this.p2, chest, function(p2, chest){
+            console.log("Got to Chest!");
+        });  
 
         //animation
         var frameNames = this.textures.get('player').getFrameNames();
