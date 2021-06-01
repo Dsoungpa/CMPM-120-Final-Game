@@ -69,7 +69,7 @@ class Tutorial extends Phaser.Scene {
         this.cameras.main.startFollow(this.p2, true, 0.3, 0.3);
 
         // BOUNCE BUBBLE
-        this.bouncebubble1 = this.add.sprite(250, 200, 'bubble', 0);
+        this.bouncebubble1 = this.add.sprite(250, 300, 'bubble', 0);
 
         //physics
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
@@ -188,33 +188,33 @@ class Tutorial extends Phaser.Scene {
 
             //moves them left(when moving right)
             if (this.p2.body.velocity.y == 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
-                this.p2.body.velocity.x = Math.cos(180) * 500;
+                this.p2.body.velocity.x = Math.cos(180) * 200;
                 this.p2.play("swimRight");
                 console.log("moving right")
             }
 
             // moves them right(when moving left)
             else if (this.p2.body.velocity.y == 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
-                this.p2.body.velocity.x = Math.cos(0) * 500;
+                this.p2.body.velocity.x = Math.cos(0) * 200;
                 this.p2.play("swimLeft");
                 console.log("moving left")
             }
 
             // moves them down(when moving up) (3 CONDITIONS)
             else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == 0){
-                this.p2.body.velocity.y = Math.cos(0) * 500;
+                this.p2.body.velocity.y = Math.cos(0) * 200;
                 console.log("moving down")
             }
             
             else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
-                this.p2.body.velocity.y = Math.cos(0) * 500;
-                this.p2.body.velocity.x = Math.cos(180) * 500;
+                this.p2.body.velocity.y = Math.cos(0) * 200;
+                this.p2.body.velocity.x = Math.cos(180) * 200;
                 console.log("moving down/left")
             }
 
             else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
-                this.p2.body.velocity.y = Math.cos(0) * 500;
-                this.p2.body.velocity.x = Math.cos(0) * 500;
+                this.p2.body.velocity.y = Math.cos(0) * 200;
+                this.p2.body.velocity.x = Math.cos(0) * 200;
                 
                 console.log("moving down/right")
             }
@@ -222,19 +222,19 @@ class Tutorial extends Phaser.Scene {
             // moves them up(when moving down) ( 3 CONDITIONS)
             
             else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == 0){
-                this.p2.body.velocity.y = Math.cos(90) * 500;
+                this.p2.body.velocity.y = Math.cos(90) * 200;
                 console.log("moving UP")
             }
             
             else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
-                this.p2.body.velocity.y = Math.cos(90) * 500;
-                this.p2.body.velocity.x = Math.cos(180) * 500;
+                this.p2.body.velocity.y = Math.cos(90) * 200;
+                this.p2.body.velocity.x = Math.cos(180) * 200;
                 console.log("moving UP/left")
             }
 
             else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
-                this.p2.body.velocity.y = Math.cos(90) * 500;
-                this.p2.body.velocity.x = Math.cos(0) * 500;
+                this.p2.body.velocity.y = Math.cos(90) * 200;
+                this.p2.body.velocity.x = Math.cos(0) * 200;
                 
                 console.log("moving UP/right")
             }
