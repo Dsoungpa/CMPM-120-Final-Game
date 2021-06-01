@@ -19,24 +19,32 @@ class Tutorial extends Phaser.Scene {
         //map render
         const map = this.add.tilemap('tilemap');
         const tileset = map.addTilesetImage('underwater', 'tileset');
-
         const bgLayer = map.createLayer('Background', tileset, 0, 0);
+        const wall = map.createLayer('CastleWall', tileset, 0, 0);
+        const bubble = map.createLayer('Bubble', tileset, 0, 0);
+        const t1 = map.createLayer('CastleTop', tileset, 0, 0);
+        const t2 = map.createLayer('CastleFloor', tileset, 0, 0);
+        const t3 = map.createLayer('CastleSides', tileset, 0, 0);
 
-        const terrainLayer = map.createLayer('Collidable', tileset, 0, 0);
         const extras = map.createLayer('Extra', tileset, 0, 0);
 
         const chest = map.createLayer('Chest', tileset, 0, 0);
 
-        terrainLayer.setCollisionByProperty({
+        t1.setCollisionByProperty({
             Collision: true
         });
-
+        t2.setCollisionByProperty({
+            Collision: true
+        });
+        t3.setCollisionByProperty({
+            Collision: true
+        });
         chest.setCollisionByProperty({
             Collision: true
         });
 
         //Health Display
-        healthDisplay = this.add.text(265, 15, "Health: " + health, healthConfig);
+        healthDisplay = this.add.text(265, 240, "Health: " + health, healthConfig);
 
         minushealth = setInterval(mhealth, 1000);
 
@@ -59,21 +67,25 @@ class Tutorial extends Phaser.Scene {
         right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         // player physics
-        this.p2 = this.physics.add.sprite(100, 250, 'player', 0);
-        this.p2.body.collideWorldBounds = true;  
+        this.p2 = this.physics.add.sprite(100, 300, 'player', 0);
+        this.p2.body.collideWorldBounds = true;    
 
         //BUBBLES
         this.bubble1 = this.add.sprite(350, 300, 'bubble', 0);
+        //this.bubble1.alpha = 0;
 
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.p2, true, 0.3, 0.3);
 
         // BOUNCE BUBBLE
-        this.bouncebubble1 = this.add.sprite(250, 300, 'bubble', 0);
+        this.bouncebubble1 = this.add.sprite(240, 300, 'bubble', 0);
+        //this.bouncebubble1.alpha = 0;
 
         //physics
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
-        this.physics.add.collider(this.p2, terrainLayer);
+        this.physics.add.collider(this.p2, t1);
+        this.physics.add.collider(this.p2, t2);
+        this.physics.add.collider(this.p2, t3);
 
         // chest collision
         this.physics.add.collider(this.p2, chest, function(p2, chest){
@@ -150,7 +162,7 @@ class Tutorial extends Phaser.Scene {
 
         R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
-        this.restartText = this.add.tileSprite(0, 0, 384, 500, 'restart').setOrigin(0, 0);
+        //this.restartText = this.add.tileSprite(0, 0, 384, 500, 'restart').setOrigin(0, 0);
         bubbles = this.sound.add('bubbles', {volume: 0.04});
         bubbles.play();
     }
@@ -183,66 +195,9 @@ class Tutorial extends Phaser.Scene {
             healthDisplay.text = "Health: " + health;
         }
 
-        // bounce bubble
-        if(this.checkCollision(this.p2, this.bouncebubble1)){
+        this.bubblebounceCollision(this.p2, this.bouncebubble1);
+        
 
-            //moves them left(when moving right)
-            if (this.p2.body.velocity.y == 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
-                this.p2.body.velocity.x = Math.cos(180) * 200;
-                this.p2.play("swimRight");
-                console.log("moving right")
-            }
-
-            // moves them right(when moving left)
-            else if (this.p2.body.velocity.y == 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
-                this.p2.body.velocity.x = Math.cos(0) * 200;
-                this.p2.play("swimLeft");
-                console.log("moving left")
-            }
-
-            // moves them down(when moving up) (3 CONDITIONS)
-            else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == 0){
-                this.p2.body.velocity.y = Math.cos(0) * 200;
-                console.log("moving down")
-            }
-            
-            else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
-                this.p2.body.velocity.y = Math.cos(0) * 200;
-                this.p2.body.velocity.x = Math.cos(180) * 200;
-                console.log("moving down/left")
-            }
-
-            else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
-                this.p2.body.velocity.y = Math.cos(0) * 200;
-                this.p2.body.velocity.x = Math.cos(0) * 200;
-                
-                console.log("moving down/right")
-            }
-
-            // moves them up(when moving down) ( 3 CONDITIONS)
-            
-            else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == 0){
-                this.p2.body.velocity.y = Math.cos(90) * 200;
-                console.log("moving UP")
-            }
-            
-            else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
-                this.p2.body.velocity.y = Math.cos(90) * 200;
-                this.p2.body.velocity.x = Math.cos(180) * 200;
-                console.log("moving UP/left")
-            }
-
-            else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
-                this.p2.body.velocity.y = Math.cos(90) * 200;
-                this.p2.body.velocity.x = Math.cos(0) * 200;
-                
-                console.log("moving UP/right")
-            }
-            
-            
-            
-            
-        }
         // movement from https://www.html5gamedevs.com/topic/7774-apply-force-to-sprite/
 
         //console.log("velocity: ", this.p2.body.velocity.y);
@@ -286,6 +241,64 @@ class Tutorial extends Phaser.Scene {
         }
     }
 
+    bubblebounceCollision(player, bouncebubble){
+        // bounce bubble
+        if(this.checkCollision(this.p2, this.bouncebubble1)){
+
+            //moves them left(when moving right)
+            if (this.p2.body.velocity.y == 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
+                this.p2.body.velocity.x = Math.cos(180) * 110;
+                this.p2.play("swimRight");
+                console.log("moving right")
+            }
+
+            // moves them right(when moving left)
+            else if (this.p2.body.velocity.y == 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
+                this.p2.body.velocity.x = Math.cos(0) * 110;
+                this.p2.play("swimLeft");
+                console.log("moving left")
+            }
+
+            // moves them down(when moving up) (3 CONDITIONS)
+            else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == 0){
+                this.p2.body.velocity.y = Math.cos(0) * 110;
+                console.log("moving down")
+            }
+            
+            else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
+                this.p2.body.velocity.y = Math.cos(0) * 110;
+                this.p2.body.velocity.x = Math.cos(180) * 110;
+                console.log("moving down/left")
+            }
+
+            else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
+                this.p2.body.velocity.y = Math.cos(0) * 110;
+                this.p2.body.velocity.x = Math.cos(0) * 110;
+                
+                console.log("moving down/right")
+            }
+
+            // moves them up(when moving down) ( 3 CONDITIONS)
+            
+            else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == 0){
+                this.p2.body.velocity.y = Math.cos(90) * 110;
+                console.log("moving UP")
+            }
+            
+            else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
+                this.p2.body.velocity.y = Math.cos(90) * 110;
+                this.p2.body.velocity.x = Math.cos(180) * 110;
+                console.log("moving UP/left")
+            }
+
+            else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
+                this.p2.body.velocity.y = Math.cos(90) * 110;
+                this.p2.body.velocity.x = Math.cos(0) * 110;
+                console.log("moving UP/right")
+            } 
+        }
+    }
+
     checkCollision(player, bubble){
         // simple AABB checking
         if( player.x < bubble.x + bubble.width && 
@@ -298,4 +311,7 @@ class Tutorial extends Phaser.Scene {
             return false;
         }
     }
+
+
+
 }
