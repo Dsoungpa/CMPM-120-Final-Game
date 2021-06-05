@@ -51,7 +51,7 @@ class Tutorial extends Phaser.Scene {
         function mhealth(){
             console.log("In here");
             if(health > 0){
-                health-= 10;
+                health-= 0;
             }
             healthDisplay.text = "Health:  " + health;
         }
@@ -78,7 +78,7 @@ class Tutorial extends Phaser.Scene {
         this.cameras.main.startFollow(this.p2, true, 0.3, 0.3);
 
         // BOUNCE BUBBLE
-        this.bouncebubble1 = this.add.sprite(240, 300, 'bubble', 0);
+        this.bouncebubble1 = this.add.sprite(240, 400, 'bubble', 0);
         //this.bouncebubble1.alpha = 0;
 
         //physics
@@ -265,15 +265,19 @@ class Tutorial extends Phaser.Scene {
                 console.log("moving down")
             }
             
-            else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
-                this.p2.body.velocity.y = Math.cos(0) * 110;
-                this.p2.body.velocity.x = Math.cos(180) * 110;
+            else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(0) * 100){ //Math.cos(0)*100 = 100
+                //this.p2.body.velocity.y = Math.cos(0) * 110;
+                //this.p2.body.velocity.x = Math.cos(180) * 110;
+                this.p2.body.velocity.y = -(this.p2.body.velocity.y);
+                this.p2.body.velocity.x = -(this.p2.body.velocity.x);
                 console.log("moving down/left")
             }
 
             else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
-                this.p2.body.velocity.y = Math.cos(0) * 110;
-                this.p2.body.velocity.x = Math.cos(0) * 110;
+                //this.p2.body.velocity.y = Math.cos(0) * 110;
+                //this.p2.body.velocity.x = Math.cos(0) * 110;
+                this.p2.body.velocity.y = -(this.p2.body.velocity.y);
+                this.p2.body.velocity.x = -(this.p2.body.velocity.x);
                 
                 console.log("moving down/right")
             }
@@ -286,14 +290,14 @@ class Tutorial extends Phaser.Scene {
             }
             
             else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
-                this.p2.body.velocity.y = Math.cos(90) * 110;
-                this.p2.body.velocity.x = Math.cos(180) * 110;
+                this.p2.body.velocity.y = -(this.p2.body.velocity.y);
+                this.p2.body.velocity.x = -(this.p2.body.velocity.x);
                 console.log("moving UP/left")
             }
 
             else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
-                this.p2.body.velocity.y = Math.cos(90) * 110;
-                this.p2.body.velocity.x = Math.cos(0) * 110;
+                this.p2.body.velocity.y = -(this.p2.body.velocity.y);
+                this.p2.body.velocity.x = -(this.p2.body.velocity.x);
                 console.log("moving UP/right")
             } 
         }
