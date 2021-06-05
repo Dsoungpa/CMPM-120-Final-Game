@@ -44,14 +44,16 @@ class Tutorial extends Phaser.Scene {
         });
 
         //Health Display
-        healthDisplay = this.add.text(265, 240, "Health: " + health, healthConfig);
+        healthDisplay = this.add.text(275, 0, "Health: " + health, healthConfig).setScrollFactor(0);
+        
+
 
         minushealth = setInterval(mhealth, 1000);
 
         function mhealth(){
             console.log("In here");
             if(health > 0){
-                health-= 0;
+                health-= 10;
             }
             healthDisplay.text = "Health:  " + health;
         }
