@@ -51,9 +51,9 @@ class Tutorial extends Phaser.Scene {
         minushealth = setInterval(mhealth, 1000);
 
         function mhealth(){
-            console.log("In here");
+            //console.log("In here");
             if(health > 0){
-                health-= 10;
+                health-= 0;
             }
             healthDisplay.text = "Health:  " + health;
         }
