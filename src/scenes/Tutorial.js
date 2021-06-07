@@ -117,12 +117,12 @@ class Tutorial extends Phaser.Scene {
         this.bb6 = this.add.sprite(300, 1296, 'geyserCol', 0);
 
             //alpha
-            // this.bb1.alpha = 0;
-            // this.bb2.alpha = 0;
-            // this.bb3.alpha = 0;
-            // this.bb4.alpha = 0;
-            // this.bb5.alpha = 0;
-            // this.bb6.alpha = 0;
+            this.bb1.alpha = 0;
+            this.bb2.alpha = 0;
+            this.bb3.alpha = 0;
+            this.bb4.alpha = 0;
+            this.bb5.alpha = 0;
+            this.bb6.alpha = 0;
 
         //physics
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
