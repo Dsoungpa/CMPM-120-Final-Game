@@ -33,7 +33,7 @@ class Title extends Phaser.Scene {
         //keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        backgroundMusic = this.sound.add('bkmusic', {volume: 0.0});
+        backgroundMusic = this.sound.add('bkmusic', {volume: 0.1});
         backgroundMusic.loop = true;
         backgroundMusic.play();
     }
@@ -44,7 +44,7 @@ class Title extends Phaser.Scene {
         //   this.scene.start('playScene');    
         // }
         if (Phaser.Input.Keyboard.JustDown(space)) {
-            backgroundMusic.volume = 0.08
+            backgroundMusic.volume = 0.06
             this.sound.play('sfx_select');
             this.scene.start('tutorialScene'); 
         }
