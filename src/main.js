@@ -58,3 +58,4 @@ let minushealth;
 let col = false;
 let movement = true;
 let lost, won;
+let nfinish = true;

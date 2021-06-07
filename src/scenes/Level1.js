@@ -16,6 +16,9 @@ class Level1 extends Phaser.Scene {
         this.load.audio('bubbles', './assets/audio/bubbles.mp3');
         // this.load.image('fin', './assets/img/GameOver.png');
         this.load.image('fin2', './assets/img/WonGame.png');
+
+        this.load.audio('lastchest', './assets/audio/lastlevelchest.wav');
+        this.load.audio('bubblepickup', './assets/audio/bubblepickup.wav');
     }
 
     create(){
@@ -277,10 +280,11 @@ class Level1 extends Phaser.Scene {
             col = false;
             //this.game.sound.stopAll();
             this.add.image(0, 1780, 'fin2').setOrigin(0, 0);
-
-            //console.log("y first and x second");
-            //console.log(this.p2.body.y - 320);
-            //console.log(this.p2.body.x - 160);
+            if (nfinish){
+                this.sound.play('lastchest');
+                nfinish = false;
+            }
+            
 
             clearInterval(minushealth);
             health = -1;
@@ -299,6 +303,9 @@ class Level1 extends Phaser.Scene {
         this.checkCollision(this.p2, this.b3) ||
         this.checkCollision(this.p2, this.b4) ||
         this.checkCollision(this.p2, this.b5)){
+            if (health != 100){
+                this.sound.play('bubblepickup');
+            }
             health = 100;
         }
 

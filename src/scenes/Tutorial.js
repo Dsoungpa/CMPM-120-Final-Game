@@ -15,6 +15,10 @@ class Tutorial extends Phaser.Scene {
         this.load.image('geyserCol', './assets/img/GeyserCol.png');
         this.load.audio('bubbles', './assets/audio/bubbles.mp3');
         this.load.image('fin', './assets/img/GameOver.png');
+
+        this.load.audio('bubblepickup', './assets/audio/bubblepickup.wav');
+        this.load.audio('firstchest', './assets/audio/firstlevelchest.wav');
+        this.load.audio('lastchest', './assets/audio/lastlevelchest.wav');
     }
 
     create(){
@@ -278,6 +282,7 @@ class Tutorial extends Phaser.Scene {
         if (col){
             col = false;
             health = 100;
+            this.sound.play('firstchest');
             this.scene.start('level1Scene');
         }
         // bubble restoration
@@ -285,7 +290,11 @@ class Tutorial extends Phaser.Scene {
         this.checkCollision(this.p2, this.b2) || 
         this.checkCollision(this.p2, this.b3) ||
         this.checkCollision(this.p2, this.b4)){
+            if (health != 100){
+                this.sound.play('bubblepickup');
+            }
             health = 100;
+            
         }
 
         this.bubblebounceCollision(this.p2, this.bb1);
@@ -342,6 +351,7 @@ class Tutorial extends Phaser.Scene {
     bubblebounceCollision(player, bouncebubble){
         // bounce bubble
         if(this.checkCollision(this.p2, bouncebubble)){
+            
 
             //moves them left(when moving right)
             if (this.p2.body.velocity.y == 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
