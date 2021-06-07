@@ -251,7 +251,7 @@ class Tutorial extends Phaser.Scene {
         healthBar.scaleX = health/100;
         // health game conditions
         let gameOver = false;
-        let movement = true;
+        //let movement = true;
         if(health == 0){
             gameOver = true;
             movement = false;
@@ -266,6 +266,7 @@ class Tutorial extends Phaser.Scene {
                 backgroundMusic.play();
                 bubbles.play();
                 clearInterval(minushealth);
+                movement = true;
                 this.scene.restart();
             }
             if (Phaser.Input.Keyboard.JustDown(keyT)) {

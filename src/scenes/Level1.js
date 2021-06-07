@@ -264,6 +264,7 @@ class Level1 extends Phaser.Scene {
                 backgroundMusic.play();
                 bubbles.play();
                 clearInterval(minushealth);
+                movement = true;
                 this.scene.restart();
             }
             if (Phaser.Input.Keyboard.JustDown(keyT)) {
