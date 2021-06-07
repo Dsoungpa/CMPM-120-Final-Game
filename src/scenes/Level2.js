@@ -9,7 +9,7 @@ class Level2 extends Phaser.Scene {
         this.load.image('dart', './assets/img/Dart.png');
         this.load.image('tileset', './assets/img/underwatertm.png');
         this.load.image('bubble' , './assets/img/Bubble.png');
-        this.load.tilemapTiledJSON('tilemap', './assets/img/level2map.json');
+        this.load.tilemapTiledJSON('tilemap', './assets/img/level1map.json');
         this.load.atlas('player', './assets/img/DiverSprite.png', './assets/img/DiverSprite.json');
         this.load.image('restart', './assets/img/RestartText.png');
         this.load.image('geyserCol', './assets/img/GeyserCol.png');
@@ -68,7 +68,7 @@ class Level2 extends Phaser.Scene {
                 g6.scale *= -1;
 
         //Health Display
-        healthDisplay = this.add.text(260, 15, "Health: " + health, healthConfig).setScrollFactor(0);
+        //healthDisplay = this.add.text(260, 15, "Health: " + health, healthConfig).setScrollFactor(0);
         
         minushealth = setInterval(mhealth, 1000);
 
@@ -77,7 +77,7 @@ class Level2 extends Phaser.Scene {
             if(health > 0){
                 health-= 0;
             }
-            healthDisplay.text = "Health:  " + health;
+            //healthDisplay.text = "Health:  " + health;
         }
 
         console.log("in Tutorial");
@@ -204,6 +204,8 @@ class Level2 extends Phaser.Scene {
         bubbles.loop = true;
         bubbles.play();
 
+        keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+
         this.makeBar(97, 57, 0x061e2f, 206, 14).setScrollFactor(0);
         healthBar = this.makeBar(100, 60, 0x3aafff, 200, 8).setScrollFactor(0);
         
@@ -231,6 +233,10 @@ class Level2 extends Phaser.Scene {
     
     update(){
 
+        if (Phaser.Input.Keyboard.JustDown(keyT)) {
+            this.scene.start('titleScene'); 
+        }
+
         healthBar.scaleX = health/100;
         // health game conditions
         let gameOver = false;
@@ -241,7 +247,7 @@ class Level2 extends Phaser.Scene {
             this.p2.body.velocity.x = 0;
             this.p2.body.velocity.y = 0;
             health = 0;
-            healthDisplay.text = "Health: " + health;
+            //healthDisplay.text = "Health: " + health;
             endDisplay = this.add.text(100, 250, "Press R to Restart!", endConfig);
             //this.scene.pause("tutorialScene");
             this.game.sound.stopAll();
@@ -249,13 +255,13 @@ class Level2 extends Phaser.Scene {
         // chest collision check
         if (col){
             col = false;
+            health = 100;
             this.scene.start('titleScene');
         }
         // bubble restoration
         if(this.checkCollision(this.p2, this.bubble1)){
-            this.bubble1.destroy();
             health = 100;
-            healthDisplay.text = "Health: " + health;
+            //healthDisplay.text = "Health: " + health;
         }
 
         this.bubblebounceCollision(this.p2, this.bb1);

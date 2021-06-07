@@ -1,3 +1,8 @@
+//Member:
+//Bemister Tessema
+//Dylan Soungpanya
+//Luis Garcia
+
 let config = {
     type: Phaser.CANVAS,
     width: 384,
@@ -45,9 +50,10 @@ let endConfig = {
 
 let game = new Phaser.Game(config);
 let up, down, left, right, pressed;
-let keyRIGHT, R;
+let space, R, keyT;
 let backgroundMusic;
 let bubbles;
 let endDisplay;
 let minushealth;
 let col = false;
+let lost, won;

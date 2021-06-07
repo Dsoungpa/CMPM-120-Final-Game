@@ -14,9 +14,12 @@ class Tutorial extends Phaser.Scene {
         this.load.image('restart', './assets/img/RestartText.png');
         this.load.image('geyserCol', './assets/img/GeyserCol.png');
         this.load.audio('bubbles', './assets/audio/bubbles.mp3');
+        this.load.image('fin', './assets/img/GameOver.png');
     }
 
     create(){
+
+        lost = this.add.image(0, 0, 'fin').setOrigin(0, 0);
 
         //map render
         const map = this.add.tilemap('tilemap');
@@ -71,11 +74,12 @@ class Tutorial extends Phaser.Scene {
         //healthDisplay = this.add.text(260, 15, "Health: " + health, healthConfig).setScrollFactor(0);
         
         minushealth = setInterval(mhealth, 1000);
+        health = 100;
 
         function mhealth(){
             //console.log("In here");
             if(health > 0){
-                health-= 5;
+                health-= 10;
             }
             //healthDisplay.text = "Health:  " + health;
         }
@@ -95,8 +99,11 @@ class Tutorial extends Phaser.Scene {
         this.p2.body.collideWorldBounds = true;    
 
         //BUBBLES
-        this.bubble1 = this.add.sprite(250, 300, 'bubble', 0);
+        this.b1 = this.add.sprite(250, 300, 'bubble', 0);
         //this.bubble1.alpha = 0;
+        this.b2 = this.add.sprite(275, 675, 'bubble', 0);
+        this.b3 = this.add.sprite(165, 1215, 'bubble', 0);
+        this.b4 = this.add.sprite(235, 1895, 'bubble', 0);
 
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.p2, true, 0.3, 0.3);
@@ -110,12 +117,12 @@ class Tutorial extends Phaser.Scene {
         this.bb6 = this.add.sprite(300, 1296, 'geyserCol', 0);
 
             //alpha
-            this.bb1.alpha = 0;
-            this.bb2.alpha = 0;
-            this.bb3.alpha = 0;
-            this.bb4.alpha = 0;
-            this.bb5.alpha = 0;
-            this.bb6.alpha = 0;
+            // this.bb1.alpha = 0;
+            // this.bb2.alpha = 0;
+            // this.bb3.alpha = 0;
+            // this.bb4.alpha = 0;
+            // this.bb5.alpha = 0;
+            // this.bb6.alpha = 0;
 
         //physics
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
@@ -204,6 +211,8 @@ class Tutorial extends Phaser.Scene {
         bubbles.loop = true;
         bubbles.play();
 
+        keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+
         this.makeBar(97, 57, 0x061e2f, 206, 14).setScrollFactor(0);
         healthBar = this.makeBar(100, 60, 0x3aafff, 200, 8).setScrollFactor(0);
         
@@ -232,6 +241,11 @@ class Tutorial extends Phaser.Scene {
     
     update(){
         
+        if (Phaser.Input.Keyboard.JustDown(keyT)) {
+            this.scene.start('titleScene'); 
+        }
+
+        console.log(this.p2.x, " : ", this.p2.y);
         healthBar.scaleX = health/100;
         // health game conditions
         let gameOver = false;
@@ -242,21 +256,30 @@ class Tutorial extends Phaser.Scene {
             this.p2.body.velocity.x = 0;
             this.p2.body.velocity.y = 0;
             health = 0;
-            //healthDisplay.text = "Health: " + health;
-            endDisplay = this.add.text(100, 250, "Press R to Restart!", endConfig);
-            //this.scene.pause("tutorialScene");
             this.game.sound.stopAll();
+            this.add.image(0, 0, 'fin').setOrigin(0, 0);
+            clearInterval(minushealth);
+            if (Phaser.Input.Keyboard.JustDown(R)) {
+                health = 100;
+                this.scene.restart();
+            }
+            if (Phaser.Input.Keyboard.JustDown(keyT)) {
+                health = 100;
+                this.scene.start("titleScene");
+            }
         }
         // chest collision check
         if (col){
             col = false;
+            health = 100;
             this.scene.start('level1Scene');
         }
         // bubble restoration
-        if(this.checkCollision(this.p2, this.bubble1)){
-            //this.bubble1.destroy();
+        if(this.checkCollision(this.p2, this.b1) || 
+        this.checkCollision(this.p2, this.b2) || 
+        this.checkCollision(this.p2, this.b3) ||
+        this.checkCollision(this.p2, this.b4)){
             health = 100;
-            //healthDisplay.text = "Health: " + health;
         }
 
         this.bubblebounceCollision(this.p2, this.bb1);
@@ -331,7 +354,7 @@ class Tutorial extends Phaser.Scene {
             // moves them down(when moving up) (3 CONDITIONS)
             else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == 0){
                 this.p2.body.velocity.y = Math.cos(0) * 110;
-                console.log("moving down")
+                //console.log("moving down")
             }
             
             else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(0) * 100){ //Math.cos(0)*100 = 100
@@ -339,7 +362,7 @@ class Tutorial extends Phaser.Scene {
                 //this.p2.body.velocity.x = Math.cos(180) * 110;
                 this.p2.body.velocity.y = -(this.p2.body.velocity.y);
                 this.p2.body.velocity.x = -(this.p2.body.velocity.x);
-                console.log("moving down/left")
+                //console.log("moving down/left")
             }
 
             else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
@@ -348,26 +371,26 @@ class Tutorial extends Phaser.Scene {
                 this.p2.body.velocity.y = -(this.p2.body.velocity.y);
                 this.p2.body.velocity.x = -(this.p2.body.velocity.x);
                 
-                console.log("moving down/right")
+                //console.log("moving down/right")
             }
 
             // moves them up(when moving down) ( 3 CONDITIONS)
             
             else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == 0){
                 this.p2.body.velocity.y = Math.cos(90) * 110;
-                console.log("moving UP")
+                //console.log("moving UP")
             }
             
             else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == Math.cos(0) * 100){
                 this.p2.body.velocity.y = -(this.p2.body.velocity.y);
                 this.p2.body.velocity.x = -(this.p2.body.velocity.x);
-                console.log("moving UP/left")
+                //console.log("moving UP/left")
             }
 
             else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == Math.cos(180) * 100){
                 this.p2.body.velocity.y = -(this.p2.body.velocity.y);
                 this.p2.body.velocity.x = -(this.p2.body.velocity.x);
-                console.log("moving UP/right")
+                //console.log("moving UP/right")
             } 
         }
     }

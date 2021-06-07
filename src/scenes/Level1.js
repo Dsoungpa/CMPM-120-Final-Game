@@ -9,17 +9,22 @@ class Level1 extends Phaser.Scene {
         this.load.image('dart', './assets/img/Dart.png');
         this.load.image('tileset', './assets/img/underwatertm.png');
         this.load.image('bubble' , './assets/img/Bubble.png');
-        this.load.tilemapTiledJSON('tilemap', './assets/img/level1map.json');
+        this.load.tilemapTiledJSON('tilemap2', './assets/img/level1map.json');
         this.load.atlas('player', './assets/img/DiverSprite.png', './assets/img/DiverSprite.json');
         this.load.image('restart', './assets/img/RestartText.png');
         this.load.image('geyserCol', './assets/img/GeyserCol.png');
         this.load.audio('bubbles', './assets/audio/bubbles.mp3');
+        // this.load.image('fin', './assets/img/GameOver.png');
+        // this.load.image('fin2', './assets/img/WonGame.png');
     }
 
     create(){
 
+        won = this.add.image(0, 0, 'fin2').setOrigin(0, 0);
+        lost = this.add.image(0, 0, 'fin').setOrigin(0, 0);
+
         //map render
-        const map = this.add.tilemap('tilemap');
+        const map = this.add.tilemap('tilemap2');
         const tileset = map.addTilesetImage('underwater', 'tileset');
         const bgLayer = map.createLayer('Background', tileset, 0, 0);
         const wall = map.createLayer('CastleWall', tileset, 0, 0);
@@ -57,18 +62,17 @@ class Level1 extends Phaser.Scene {
             this.anims.create(config2);
                 //leftgeyser
                 var g1 = this.add.sprite(90, 680, 'geyser').play('geyserAnim');
-                var g2 = this.add.sprite(90, 1648, 'geyser').play('geyserAnim');
-                var g3 = this.add.sprite(90, 2000, 'geyser').play('geyserAnim');
+                var g2 = this.add.sprite(90, 1736, 'geyser').play('geyserAnim');
                 //rightgeyser
-                var g4 = this.add.sprite(300, 570, 'geyser').play('geyserAnim');
+                var g4 = this.add.sprite(300, 504, 'geyser').play('geyserAnim');
                 g4.scale *= -1;
-                var g5 = this.add.sprite(300, 944, 'geyser').play('geyserAnim');
+                var g5 = this.add.sprite(700, 1464, 'geyser').play('geyserAnim');
                 g5.scale *= -1;
-                var g6 = this.add.sprite(300, 1296, 'geyser').play('geyserAnim');
+                var g6 = this.add.sprite(300, 1824, 'geyser').play('geyserAnim');
                 g6.scale *= -1;
 
         //Health Display
-        healthDisplay = this.add.text(260, 15, "Health: " + health, healthConfig).setScrollFactor(0);
+        //healthDisplay = this.add.text(260, 15, "Health: " + health, healthConfig).setScrollFactor(0);
         
         minushealth = setInterval(mhealth, 1000);
 
@@ -77,7 +81,7 @@ class Level1 extends Phaser.Scene {
             if(health > 0){
                 health-= 0;
             }
-            healthDisplay.text = "Health:  " + health;
+            //healthDisplay.text = "Health:  " + health;
         }
 
         console.log("in level1");
@@ -95,24 +99,26 @@ class Level1 extends Phaser.Scene {
         this.p2.body.collideWorldBounds = true;    
 
         //BUBBLES
-        this.bubble1 = this.add.sprite(250, 300, 'bubble', 0);
+        this.b1 = this.add.sprite(240, 330, 'bubble', 0);
         //this.bubble1.alpha = 0;
+        this.b2 = this.add.sprite(130, 820, 'bubble', 0);
+        this.b3 = this.add.sprite(655, 1140, 'bubble', 0);
+        this.b4 = this.add.sprite(352, 1416, 'bubble', 0);
+        this.b5 = this.add.sprite(175, 1925, 'bubble', 0);
 
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.p2, true, 0.3, 0.3);
 
         // BOUNCE BUBBLE
         this.bb1 = this.add.sprite(90, 680, 'geyserCol', 0);
-        this.bb2 = this.add.sprite(90, 1648, 'geyserCol', 0);
-        this.bb3 = this.add.sprite(90, 2000, 'geyserCol', 0);
-        this.bb4 = this.add.sprite(300, 570, 'geyserCol', 0);
-        this.bb5 = this.add.sprite(300, 944, 'geyserCol', 0);
-        this.bb6 = this.add.sprite(300, 1296, 'geyserCol', 0);
+        this.bb2 = this.add.sprite(90, 1736, 'geyserCol', 0);
+        this.bb4 = this.add.sprite(300, 504, 'geyserCol', 0);
+        this.bb5 = this.add.sprite(700, 1464, 'geyserCol', 0);
+        this.bb6 = this.add.sprite(300, 1824, 'geyserCol', 0);
 
             //alpha
             this.bb1.alpha = 0;
             this.bb2.alpha = 0;
-            this.bb3.alpha = 0;
             this.bb4.alpha = 0;
             this.bb5.alpha = 0;
             this.bb6.alpha = 0;
@@ -204,6 +210,8 @@ class Level1 extends Phaser.Scene {
         bubbles.loop = true;
         bubbles.play();
 
+        keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+
         this.makeBar(97, 57, 0x061e2f, 206, 14).setScrollFactor(0);
         healthBar = this.makeBar(100, 60, 0x3aafff, 200, 8).setScrollFactor(0);
         
@@ -231,6 +239,11 @@ class Level1 extends Phaser.Scene {
     
     update(){
 
+        if (Phaser.Input.Keyboard.JustDown(keyT)) {
+            this.scene.start('titleScene'); 
+        }
+
+        console.log(this.p2.x, " : ", this.p2.y);
         healthBar.scaleX = health/100;
         // health game conditions
         let gameOver = false;
@@ -241,26 +254,36 @@ class Level1 extends Phaser.Scene {
             this.p2.body.velocity.x = 0;
             this.p2.body.velocity.y = 0;
             health = 0;
-            healthDisplay.text = "Health: " + health;
-            endDisplay = this.add.text(100, 250, "Press R to Restart!", endConfig);
-            //this.scene.pause("tutorialScene");
             this.game.sound.stopAll();
+            this.add.image(0, 0, 'fin').setOrigin(0, 0);
+            clearInterval(minushealth);
+            if (Phaser.Input.Keyboard.JustDown(R)) {
+                health = 100;
+                this.scene.restart();
+            }
+            if (Phaser.Input.Keyboard.JustDown(keyT)) {
+                health = 100;
+                this.scene.start("titleScene");
+            }
         }
         // chest collision check
         if (col){
             col = false;
-            this.scene.start('level2Scene');
+            this.game.sound.stopAll();
+            this.add.image(0, 0, 'fin2').setOrigin(0, 0);
+            clearInterval(minushealth);
         }
         // bubble restoration
-        if(this.checkCollision(this.p2, this.bubble1)){
-            this.bubble1.destroy();
+        if(this.checkCollision(this.p2, this.b1) || 
+        this.checkCollision(this.p2, this.b2) ||
+        this.checkCollision(this.p2, this.b3) ||
+        this.checkCollision(this.p2, this.b4) ||
+        this.checkCollision(this.p2, this.b5)){
             health = 100;
-            healthDisplay.text = "Health: " + health;
         }
 
         this.bubblebounceCollision(this.p2, this.bb1);
         this.bubblebounceCollision(this.p2, this.bb2);
-        this.bubblebounceCollision(this.p2, this.bb3);
         this.bubblebounceCollision(this.p2, this.bb4);
         this.bubblebounceCollision(this.p2, this.bb5);
         this.bubblebounceCollision(this.p2, this.bb6);
@@ -383,7 +406,4 @@ class Level1 extends Phaser.Scene {
             return false;
         }
     }
-
-
-
 }
