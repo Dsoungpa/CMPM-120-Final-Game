@@ -6,7 +6,7 @@ class Title extends Phaser.Scene {
     preload(){
         // load audio
         this.load.audio('sfx_select', './assets/audio/KeyboardAudio.wav');
-        this.load.image('menuArt', './assets/img/MenuArt.png');
+        this.load.image('menuArt', './assets/img/MainMenu.png');
         this.load.audio('bkmusic', './assets/audio/Dylan_Water.mp3');
     }
 
