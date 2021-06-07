@@ -117,6 +117,7 @@ class Tutorial extends Phaser.Scene {
         this.bb6 = this.add.sprite(300, 1296, 'geyserCol', 0);
 
             //alpha
+
             this.bb1.alpha = 0;
             this.bb2.alpha = 0;
             this.bb3.alpha = 0;
@@ -246,7 +247,7 @@ class Tutorial extends Phaser.Scene {
             this.scene.start('titleScene'); 
         }
 
-        console.log(this.p2.x, " : ", this.p2.y);
+        //console.log(this.p2.x, " : ", this.p2.y);
         healthBar.scaleX = health/100;
         // health game conditions
         let gameOver = false;
@@ -258,12 +259,13 @@ class Tutorial extends Phaser.Scene {
             this.p2.body.velocity.y = 0;
             health = 0;
             this.game.sound.stopAll();
-            this.add.image(0, 0, 'fin').setOrigin(0, 0);
+            this.add.image(0, this.p2.body.y - 120, 'fin').setOrigin(0, 0);
             clearInterval(minushealth);
             if (Phaser.Input.Keyboard.JustDown(R)) {
                 health = 100;
                 backgroundMusic.play();
                 bubbles.play();
+                clearInterval(minushealth);
                 this.scene.restart();
             }
             if (Phaser.Input.Keyboard.JustDown(keyT)) {
@@ -357,6 +359,7 @@ class Tutorial extends Phaser.Scene {
             // moves them down(when moving up) (3 CONDITIONS)
             else if (this.p2.body.velocity.y < 0 && this.p2.body.velocity.x == 0){
                 this.p2.body.velocity.y = Math.cos(0) * 110;
+                //this.p2.body.velocity.y = -(this.p2.body.velocity.y);
                 //console.log("moving down")
             }
             
@@ -380,7 +383,9 @@ class Tutorial extends Phaser.Scene {
             // moves them up(when moving down) ( 3 CONDITIONS)
             
             else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == 0){
-                this.p2.body.velocity.y = Math.cos(90) * 110;
+                //this.p2.body.velocity.y = Math.cos(90) * 110;
+                this.p2.body.velocity.y = -(this.p2.body.velocity.y) - 200;
+                //this.p2.body.velocity.x = -(this.p2.body.velocity.x);
                 //console.log("moving UP")
             }
             

@@ -15,7 +15,7 @@ class Level1 extends Phaser.Scene {
         this.load.image('geyserCol', './assets/img/GeyserCol.png');
         this.load.audio('bubbles', './assets/audio/bubbles.mp3');
         // this.load.image('fin', './assets/img/GameOver.png');
-        // this.load.image('fin2', './assets/img/WonGame.png');
+        this.load.image('fin2', './assets/img/WonGame.png');
     }
 
     create(){
@@ -133,6 +133,7 @@ class Level1 extends Phaser.Scene {
         this.physics.add.collider(this.p2, chest, function(p2, chest){
             console.log("Got to Chest!");
             col = true;
+            movement = false;
         });
 
         //animation
@@ -244,11 +245,11 @@ class Level1 extends Phaser.Scene {
             this.scene.start('titleScene'); 
         }
 
-        console.log(this.p2.x, " : ", this.p2.y);
+        //console.log(this.p2.x, " : ", this.p2.y);
         healthBar.scaleX = health/100;
         // health game conditions
         let gameOver = false;
-        let movement = true;
+        //let movement = true;
         if(health == 0){
             gameOver = true;
             movement = false;
@@ -256,12 +257,13 @@ class Level1 extends Phaser.Scene {
             this.p2.body.velocity.y = 0;
             health = 0;
             this.game.sound.stopAll();
-            this.add.image(0, 0, 'fin').setOrigin(0, 0);
+            this.add.image(this.p2.body.x - 160, this.p2.body.y - 120, 'fin').setOrigin(0, 0);
             clearInterval(minushealth);
             if (Phaser.Input.Keyboard.JustDown(R)) {
                 health = 100;
                 backgroundMusic.play();
                 bubbles.play();
+                clearInterval(minushealth);
                 this.scene.restart();
             }
             if (Phaser.Input.Keyboard.JustDown(keyT)) {
@@ -272,9 +274,23 @@ class Level1 extends Phaser.Scene {
         // chest collision check
         if (col){
             col = false;
-            this.game.sound.stopAll();
-            this.add.image(0, 0, 'fin2').setOrigin(0, 0);
+            //this.game.sound.stopAll();
+            this.add.image(0, 1780, 'fin2').setOrigin(0, 0);
+
+            //console.log("y first and x second");
+            //console.log(this.p2.body.y - 320);
+            //console.log(this.p2.body.x - 160);
+
             clearInterval(minushealth);
+            health = -1;
+            this.physics.world.gravity.y = 10;
+            movement = false;
+            if (Phaser.Input.Keyboard.JustDown(keyT)) {
+                health = 100;
+                this.scene.start("titleScene");
+            }
+            
+            //this.scene.pause();
         }
         // bubble restoration
         if(this.checkCollision(this.p2, this.b1) || 
@@ -379,7 +395,8 @@ class Level1 extends Phaser.Scene {
             // moves them up(when moving down) ( 3 CONDITIONS)
             
             else if (this.p2.body.velocity.y > 0 && this.p2.body.velocity.x == 0){
-                this.p2.body.velocity.y = Math.cos(90) * 110;
+                //this.p2.body.velocity.y = Math.cos(90) * 110;
+                this.p2.body.velocity.y = -(this.p2.body.velocity.y) - 200;
                 console.log("moving UP")
             }
             
